@@ -1,0 +1,119 @@
+<html>
+<head>
+<title>tic tac toe.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808080;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+tic tac toe.py</font>
+</center></td></tr></table>
+<pre><span class="s0">#  Проверка введёного значения</span>
+<span class="s2">def </span><span class="s1">f_check_input(v</span><span class="s2">, </span><span class="s1">size</span><span class="s2">, </span><span class="s1">field):</span>
+    <span class="s1">v = v.lower()</span>
+    <span class="s2">if </span><span class="s1">v == </span><span class="s3">'stop'</span><span class="s1">:</span>
+        <span class="s2">return </span><span class="s3">'stop'</span>
+    <span class="s2">try</span><span class="s1">:</span>
+        <span class="s1">v = tuple(map(int</span><span class="s2">, </span><span class="s1">v.split(</span><span class="s3">' '</span><span class="s1">)))</span>
+        <span class="s2">if </span><span class="s4">0 </span><span class="s2">in </span><span class="s1">v </span><span class="s2">or </span><span class="s1">len(v) != </span><span class="s4">2 </span><span class="s2">or </span><span class="s1">max(v) &gt; size </span><span class="s2">or </span><span class="s1">field[v[</span><span class="s4">0</span><span class="s1">]][v[</span><span class="s4">1</span><span class="s1">]] != </span><span class="s3">'-'</span><span class="s1">:</span>
+            <span class="s1">position_valid = </span><span class="s2">False</span>
+            <span class="s1">print(</span><span class="s3">f'Вы ввели неверные координаты: </span><span class="s2">{</span><span class="s1">v</span><span class="s2">}</span><span class="s3">'</span><span class="s1">)</span>
+            <span class="s1">v = input(</span><span class="s3">f'Уважаемый </span><span class="s2">{</span><span class="s1">user</span><span class="s2">}</span><span class="s3">, введите, адрес ячейки, </span><span class="s2">\n</span><span class="s3">'</span>
+                      <span class="s3">f'или введите stop, если хотите остановить игру </span><span class="s2">\n</span><span class="s3">: '</span><span class="s1">)</span>
+            <span class="s2">return </span><span class="s1">f_check_input(v</span><span class="s2">, </span><span class="s1">size</span><span class="s2">, </span><span class="s1">field)</span>
+    <span class="s2">except</span><span class="s1">:</span>
+        <span class="s1">print(</span><span class="s3">f'Вы ввели неверные координаты: </span><span class="s2">{</span><span class="s1">v</span><span class="s2">}</span><span class="s3">'</span><span class="s1">)</span>
+        <span class="s1">v = input(</span><span class="s3">f'Уважаемый </span><span class="s2">{</span><span class="s1">user</span><span class="s2">}</span><span class="s3">, введите, адрес ячейки, </span><span class="s2">\n</span><span class="s3">'</span>
+                  <span class="s3">f'или введите stop, если хотите остановить игру </span><span class="s2">\n</span><span class="s3">: '</span><span class="s1">)</span>
+        <span class="s2">return </span><span class="s1">f_check_input(v</span><span class="s2">, </span><span class="s1">size</span><span class="s2">, </span><span class="s1">field)</span>
+    <span class="s2">return </span><span class="s1">v</span>
+
+
+<span class="s0"># Проверка победителя</span>
+<span class="s2">def </span><span class="s1">f_check_victory(array</span><span class="s2">, </span><span class="s1">field_size):</span>
+    <span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(field_size):  </span><span class="s0"># проверка Строк</span>
+        <span class="s1">i += </span><span class="s4">1</span>
+        <span class="s2">if </span><span class="s3">'-' </span><span class="s2">in </span><span class="s1">array[i][</span><span class="s4">1</span><span class="s1">]:</span>
+            <span class="s2">continue</span>
+        <span class="s2">if </span><span class="s1">all((array[i][</span><span class="s4">1</span><span class="s1">] == c </span><span class="s2">or </span><span class="s1">c == array[i][</span><span class="s4">0</span><span class="s1">]) </span><span class="s2">for </span><span class="s1">c </span><span class="s2">in </span><span class="s1">array[i]):  </span><span class="s0"># генератор bool</span>
+            <span class="s2">return </span><span class="s1">array[i][</span><span class="s4">1</span><span class="s1">]  </span><span class="s0"># Возваращает победителя</span>
+
+    <span class="s2">for </span><span class="s1">j </span><span class="s2">in </span><span class="s1">range(field_size):  </span><span class="s0"># проверка Столбцов</span>
+        <span class="s1">j += </span><span class="s4">1</span>
+        <span class="s1">list = []</span>
+        <span class="s2">if </span><span class="s1">array[</span><span class="s4">1</span><span class="s1">][j] == </span><span class="s3">'-'</span><span class="s1">:</span>
+            <span class="s2">continue</span>
+        <span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(field_size):</span>
+            <span class="s1">i += </span><span class="s4">1</span>
+            <span class="s1">list.append(array[</span><span class="s4">1</span><span class="s1">][j] == array[i][j])</span>
+        <span class="s2">if </span><span class="s1">all(list):</span>
+            <span class="s1">print(</span><span class="s3">'Столбец!'</span><span class="s1">)</span>
+            <span class="s2">return </span><span class="s1">array[</span><span class="s4">1</span><span class="s1">][j]  </span><span class="s0"># Возваращает победителя</span>
+
+    <span class="s0"># Проверка диагоналей</span>
+    <span class="s1">list_down = []</span>
+    <span class="s1">list_up = []</span>
+    <span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(field_size):  </span><span class="s0"># Проверка диагоналей</span>
+        <span class="s1">i += </span><span class="s4">1</span>
+        <span class="s1">list_down.append(array[</span><span class="s4">1</span><span class="s1">][</span><span class="s4">1</span><span class="s1">] == array[i][i] </span><span class="s2">and </span><span class="s1">array[i][i] != </span><span class="s3">'-'</span><span class="s1">)</span>
+        <span class="s1">list_up.append(</span>
+            <span class="s1">(array[</span><span class="s4">1</span><span class="s1">][(field_size)] == array[i][(field_size) - (i - </span><span class="s4">1</span><span class="s1">)] </span><span class="s2">and </span><span class="s1">array[i][(field_size) - (i - </span><span class="s4">1</span><span class="s1">)] != </span><span class="s3">'-'</span><span class="s1">))</span>
+    <span class="s2">if </span><span class="s1">(</span><span class="s2">not </span><span class="s3">'-' </span><span class="s2">in </span><span class="s1">list_down) </span><span class="s2">and </span><span class="s1">all(list_down):</span>
+        <span class="s2">return </span><span class="s1">array[</span><span class="s4">1</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]  </span><span class="s0"># Возваращает победителя</span>
+    <span class="s2">if </span><span class="s1">(</span><span class="s2">not </span><span class="s3">'-' </span><span class="s2">in </span><span class="s1">list_up) </span><span class="s2">and </span><span class="s1">all(list_up):</span>
+        <span class="s2">return </span><span class="s1">array[</span><span class="s4">1</span><span class="s1">][field_size]  </span><span class="s0"># Возваращает победителя</span>
+
+
+<span class="s0"># Граничные условия</span>
+<span class="s1">size = </span><span class="s4">4</span>
+<span class="s1">field_size = size - </span><span class="s4">1</span>
+<span class="s1">field = [[</span><span class="s3">'-' </span><span class="s2">for </span><span class="s1">j </span><span class="s2">in </span><span class="s1">range(size)] </span><span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(size)]</span>
+<span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(size):</span>
+    <span class="s1">field[i][</span><span class="s4">0</span><span class="s1">] = str(i)</span>
+    <span class="s1">field[</span><span class="s4">0</span><span class="s1">][i] = str(i)</span>
+<span class="s1">user = </span><span class="s3">''  </span><span class="s0"># Gamer's name (X or 0)</span>
+
+<span class="s0"># Не обновляется переменная {user} при вызове переменной txt_1!!! Почему?</span>
+<span class="s0"># txt_1 = (f'Уважаемый {user}, введите, пожалуйста, \n'</span>
+<span class="s0">#          f'адрес ячейки (номер строки и столбца через '</span>
+<span class="s0">#          f'пробел),\nв которой Вы хотите поставить {user} \n: ')</span>
+
+
+<span class="s0"># Game!1</span>
+<span class="s2">for </span><span class="s1">cell </span><span class="s2">in </span><span class="s1">range(field_size ** </span><span class="s4">2</span><span class="s1">):</span>
+    <span class="s0"># while '-' in field:</span>
+    <span class="s0"># print(cell)</span>
+    <span class="s1">position = </span><span class="s2">None</span>
+    <span class="s1">print(*field</span><span class="s2">, </span><span class="s1">sep=</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">'</span><span class="s1">)</span>
+    <span class="s2">if </span><span class="s1">cell % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">0</span><span class="s1">:</span>
+        <span class="s1">user = </span><span class="s3">'X'</span>
+    <span class="s2">else</span><span class="s1">:</span>
+        <span class="s1">user = </span><span class="s3">'0'</span>
+    <span class="s1">incoming = input(</span><span class="s3">f'Уважаемый </span><span class="s2">{</span><span class="s1">user</span><span class="s2">}</span><span class="s3">, введите, пожалуйста, </span><span class="s2">\n</span><span class="s3">'</span>
+                     <span class="s3">f'адрес ячейки (номер строки и столбца через '</span>
+                     <span class="s3">f'пробел),</span><span class="s2">\n</span><span class="s3">в которой Вы хотите поставить </span><span class="s2">{</span><span class="s1">user</span><span class="s2">} \n</span><span class="s3">: '</span><span class="s1">)</span>
+
+    <span class="s1">position = f_check_input(incoming</span><span class="s2">, </span><span class="s1">size</span><span class="s2">, </span><span class="s1">field)</span>
+    <span class="s2">if </span><span class="s1">position == </span><span class="s3">'stop'</span><span class="s1">:  </span><span class="s0"># Проверка запроса на окончание игры</span>
+        <span class="s1">print(</span><span class="s3">'Игра окончена!'</span><span class="s1">)</span>
+        <span class="s2">break</span>
+    <span class="s1">field[position[</span><span class="s4">0</span><span class="s1">]][position[</span><span class="s4">1</span><span class="s1">]] = user</span>
+    <span class="s1">winner = f_check_victory(field</span><span class="s2">, </span><span class="s1">field_size)</span>
+    <span class="s2">if </span><span class="s1">winner:  </span><span class="s0"># Проверка победителя</span>
+        <span class="s1">print(*field</span><span class="s2">, </span><span class="s1">sep=</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">'</span><span class="s1">)</span>
+        <span class="s1">print(</span><span class="s3">f'</span><span class="s2">{</span><span class="s1">winner</span><span class="s2">}</span><span class="s3">, вы победили!'</span><span class="s1">)</span>
+        <span class="s1">print(</span><span class="s3">'Игра окончена!'</span><span class="s1">)</span>
+        <span class="s2">break</span>
+    <span class="s2">elif </span><span class="s1">cell == field_size ** </span><span class="s4">2 </span><span class="s1">- </span><span class="s4">1</span><span class="s1">:</span>
+        <span class="s1">print(</span><span class="s3">'Игра окончена! Победитель не выявлен!'</span><span class="s1">)</span>
+</pre>
+</body>
+</html>
